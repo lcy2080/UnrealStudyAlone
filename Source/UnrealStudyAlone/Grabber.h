@@ -1,20 +1,20 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright Lee Chang Young 2019.
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "PositionReporter.generated.h"
+#include "Grabber.generated.h"
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class UNREALSTUDYALONE_API UPositionReporter : public UActorComponent
+class UNREALSTUDYALONE_API UGrabber : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:		
+public:	
 	// Sets default values for this component's properties
-	UPositionReporter();
+	UGrabber();
 
 protected:
 	// Called when the game starts
