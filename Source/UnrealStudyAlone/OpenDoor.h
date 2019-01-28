@@ -7,6 +7,7 @@
 #include "Components/ActorComponent.h"
 #include "OpenDoor.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDoorEvent);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class UNREALSTUDYALONE_API UOpenDoor : public UActorComponent
@@ -17,30 +18,37 @@ public:
 	// Sets default values for this component's properties
 	UOpenDoor();
 
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
-
-
-public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	void OpenTheDoor();
 	void CloseTheDoor();
-	
+
+
+	float GetTotalMassOfActorsOnPlate();
+
+	UPROPERTY(BlueprintAssignable)
+	FDoorEvent OnOpenRequest;
+
+	UPROPERTY(BlueprintAssignable)
+	FDoorEvent OnCloseRequest;
+
+protected:
+	// Called when the game starts
+	virtual void BeginPlay() override;
+
+
 private:
-	UPROPERTY(VisibleAnywhere)
+	AActor* Owner;
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "OpenDoor")
 	float openAngle = -60.f;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "OpenDoor")
+	float MassToOpenDoor = 50.f;
 
+private:
 	UPROPERTY(EditAnywhere)
-	ATriggerVolume* PressurePlate;
-
-	UPROPERTY(VisibleAnywhere)
-	AActor* ActorThatOpens; // Remember pawn inherits from actor
-
-	UPROPERTY(EditAnywhere)
-		float DoorCloseDelay = 1.0f;
-
-	float LastDoorOpenTime;
+	ATriggerVolume* PressurePlate = nullptr;
 };
